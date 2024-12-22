@@ -50,6 +50,7 @@ class MainController(
     ) {
         val nickName = inputView.inputNickName()
         validator.findNickName(nickName,fileList)
+        validator.findAlreadyAttendance(nickName,fileList,nowMonth,nowDay)
         val time = inputView.inputSchoolTime()
         validator.validateCampusOperationHours(time)
         val attendanceState = attendanceHelper.checkAttendance(nowMonth,nowDay,nowDayOfWeek,time)

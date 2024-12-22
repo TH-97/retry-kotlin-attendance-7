@@ -10,9 +10,25 @@ class Validator {
 //        {"[ERROR] ${nowMonth}월 ${nowDay}일 ${nowDayOfWeek}요일은 등교일이 아닙니다."}
     }
     fun findNickName(nickName: String, fileList: MutableList<Attendances>) {
-        val f = fileList.find { it.nickname == nickName }
-        require(f != null){ Error.UNREGISTERED_NICKNAME.getMessage() }
+        val findNickName = fileList.find { it.nickname == nickName }
+        require(findNickName != null){ Error.UNREGISTERED_NICKNAME.getMessage() }
     }
+    fun findAlreadyAttendance(
+        nickName: String,
+        fileList: MutableList<Attendances>,
+        nowMonth: String,
+        nowDay: String
+    ) {
+        val filterNickname = fileList.filter { it.nickname == nickName }
+        filterNickname.forEach {
+            println(it.datetime)
+            val splitDateTime = it.datetime.split(" ")
+            val monthAndDate = splitDateTime[0].split("-")
+            if(monthAndDate[1] == nowMonth)
+                require(monthAndDate[2] != nowDay) { Error.AGAIN_ATTENDANCE.getMessage() }
+        }
+    }
+
 
     fun validateCampusOperationHours(time: String) {
         val hourAndMinute = time.split(":")
