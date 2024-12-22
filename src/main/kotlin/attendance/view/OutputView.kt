@@ -20,15 +20,24 @@ class OutputView {
     }
     fun outputChangeAttendance(
         nowMonth: String,
-        nowDay: String,
+        modifyDay: String,
         dayOfWeek: String,
         beforeSchoolTime: String,
         afterSchoolTime: String,
         beforeSchoolTimeState: String,
         afterSchoolTimeState: String
     ) {
-        println("${nowMonth}월 ${nowDay}일 ${dayOfWeek}요일 " +
+        println("${nowMonth}월 ${modifyDay}일 ${dayOfWeek}요일 " +
                 "${beforeSchoolTime} ${beforeSchoolTimeState} " +
                 "-> ${afterSchoolTime} ${afterSchoolTimeState} 수정 완료!")
+    }
+    fun outputAttendanceState(attendance: Int, tardiness: Int, absence: Int) {
+        println("출석: ${attendance}회\n" +
+                "지각: ${tardiness}회\n" +
+                "결석: ${absence}회\n")
+        val condition = absence + (tardiness/3)
+        if (condition == 2) println("경고 대상자입니다.")
+        if (condition in 3 .. 5) println("면담 대상자입니다.")
+        if (condition > 5) println("제적 대상자입니다.")
     }
 }

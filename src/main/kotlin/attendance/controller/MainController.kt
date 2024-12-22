@@ -36,7 +36,7 @@ class MainController(
                 one(fileList,nowMonth,nowDay,nowDayOfWeek)
             }
             "2" -> {two(fileList,nowDay,nowMonth)}
-            "3" -> {three(fileList)}
+            "3" -> {three(fileList,nowDay)}
             "4" -> {}
             "Q" -> {}
             else -> throw IllegalArgumentException(Error.FORM.getMessage())
@@ -72,12 +72,45 @@ class MainController(
         val beforeSchoolTimeState = attendanceHelper.checkAttendance(dayOfWeek,beforeSchoolTime)
         val afterSchoolTimeState = attendanceHelper.checkAttendance(dayOfWeek,afterSchoolTime)
         outputView.
-        outputChangeAttendance(nowMonth,nowDay,dayOfWeek,beforeSchoolTime,afterSchoolTime,beforeSchoolTimeState,afterSchoolTimeState)
+        outputChangeAttendance(nowMonth,modifyDate,dayOfWeek,beforeSchoolTime,afterSchoolTime,beforeSchoolTimeState,afterSchoolTimeState)
         run(fileList)
     }
-    fun three(fileList: MutableList<Attendances>) {
+    fun three(fileList: MutableList<Attendances>, nowDay: String) {
         val nickName = inputView.inputNickName()
         val filterFileList = fileList.filter { it.nickname == nickName }
         val sortedFileList = filterFileList.sortedBy { it.datetime.split(" ")[0].split("-")[2] }
+        var attendance = 0
+        var tardiness = 0
+        var absence = 0
+        for (i in 1..nowDay.toInt()-1){
+            val value = sortedFileList.find { it.datetime.split(" ")[0].split("-")[2].toInt() == i }
+            val dayOfWeek = dateTimeTransducer.findDateInformation(i.toString())
+            var time = "--:--"
+            var month = "12"
+            var day = i.toString()
+            if (day.length == 1) day = "0$i"
+            if (value != null) {
+                time = value.datetime.split(" ")[1]
+                month = value.datetime.split(" ")[0].split("-")[1]
+                day = value.datetime.split(" ")[0].split("-")[2]
+                val state = attendanceHelper.checkAttendance(dayOfWeek, time)
+                when (state.replace("(", "").replace(")", "")) {
+                    "출석" -> {
+                        attendance++; outputView.outputState(month, day, dayOfWeek, time, state)
+                    }
+
+                    "지각" -> {
+                        tardiness++; outputView.outputState(month, day, dayOfWeek, time, state)
+                    }
+
+                    "결석" -> {
+                        absence++;outputView.outputState(month, day, dayOfWeek, time, state)
+                    }
+                }
+            }else if (dayOfWeek != "일" && dayOfWeek != "토"){
+                absence++; outputView.outputState(month, day, dayOfWeek, time, "(결석)")
+            }
+        }
+        outputView.outputAttendanceState(attendance,tardiness,absence)
     }
 }
