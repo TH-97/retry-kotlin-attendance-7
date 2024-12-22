@@ -25,7 +25,7 @@ class MainController(
         run(fileList)
     }
     fun run(fileList : MutableList<Attendances>){
-        val nowDate = dateTimeTransducer.monthAndDate(DateTimes.now())
+        val nowDate = dateTimeTransducer.nowMonthAndDate(DateTimes.now())
         val nowMonth = nowDate[0]
         val nowDay = nowDate[1]
         val nowDayOfWeek = nowDate[2]
@@ -35,8 +35,8 @@ class MainController(
                 validator.checkDayOfWeek(nowMonth,nowDay,nowDayOfWeek)
                 one(fileList,nowMonth,nowDay,nowDayOfWeek)
             }
-            "2" -> {}
-            "3" -> {}
+            "2" -> {two(fileList,nowDay,nowMonth)}
+            "3" -> {three(fileList)}
             "4" -> {}
             "Q" -> {}
             else -> throw IllegalArgumentException(Error.FORM.getMessage())
@@ -53,10 +53,31 @@ class MainController(
         validator.findAlreadyAttendance(nickName,fileList,nowMonth,nowDay)
         val time = inputView.inputSchoolTime()
         validator.validateCampusOperationHours(time)
-        val attendanceState = attendanceHelper.checkAttendance(nowMonth,nowDay,nowDayOfWeek,time)
+        val attendanceState = attendanceHelper.checkAttendance(nowDayOfWeek,time)
         outputView.outputState(nowMonth,nowDay,nowDayOfWeek,time,attendanceState)
-        if (attendanceState == AttendanceState.ABSENCE.getState())
-        else fileList.addFirst(Attendances(nickName,"2024-${nowMonth}-${nowDay} ${time}"))
+        if (attendanceState != AttendanceState.ABSENCE.getState())
+            fileList.addFirst(Attendances(nickName,"2024-${nowMonth}-${nowDay} ${time}"))
         run(fileList)
+    }
+    fun two(fileList: MutableList<Attendances>, nowDay: String, nowMonth: String) {
+        val modifyNickName = inputView.inputModifyNickName()
+        validator.findNickName(modifyNickName,fileList)
+        val modifyDate = inputView.inputModifyDate()
+        validator.validateModifyDate(modifyDate,nowDay)
+        val modifySchoolTime = inputView.inputModifySchoolTime()
+        validator.validateCampusOperationHours(modifySchoolTime)
+        val dayOfWeek = dateTimeTransducer.findDateInformation(modifyDate)
+        val (beforeSchoolTime,afterSchoolTime) =
+            attendanceHelper.modifyAttendance(modifyNickName,nowMonth,modifyDate,modifySchoolTime,fileList)
+        val beforeSchoolTimeState = attendanceHelper.checkAttendance(dayOfWeek,beforeSchoolTime)
+        val afterSchoolTimeState = attendanceHelper.checkAttendance(dayOfWeek,afterSchoolTime)
+        outputView.
+        outputChangeAttendance(nowMonth,nowDay,dayOfWeek,beforeSchoolTime,afterSchoolTime,beforeSchoolTimeState,afterSchoolTimeState)
+        run(fileList)
+    }
+    fun three(fileList: MutableList<Attendances>) {
+        val nickName = inputView.inputNickName()
+        val filterFileList = fileList.filter { it.nickname == nickName }
+        val sortedFileList = filterFileList.sortedBy { it.datetime.split(" ")[0].split("-")[2] }
     }
 }

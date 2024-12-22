@@ -18,4 +18,17 @@ class OutputView {
     ) {
         println("${nowMonth}월 ${nowDay}일 ${nowDayOfWeek}요일 ${time} ${attendanceState}")
     }
+    fun outputChangeAttendance(
+        nowMonth: String,
+        nowDay: String,
+        dayOfWeek: String,
+        beforeSchoolTime: String,
+        afterSchoolTime: String,
+        beforeSchoolTimeState: String,
+        afterSchoolTimeState: String
+    ) {
+        println("${nowMonth}월 ${nowDay}일 ${dayOfWeek}요일 " +
+                "${beforeSchoolTime} ${beforeSchoolTimeState} " +
+                "-> ${afterSchoolTime} ${afterSchoolTimeState} 수정 완료!")
+    }
 }
