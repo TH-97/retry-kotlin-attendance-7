@@ -1,5 +1,6 @@
 package attendance
 
+import attendance.enums.AttendanceState
 import attendance.model.Attendances
 
 class AttendanceHelper {

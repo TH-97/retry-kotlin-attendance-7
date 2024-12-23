@@ -1,10 +1,10 @@
 package attendance.controller
 
 import attendance.AttendanceHelper
-import attendance.AttendanceState
+import attendance.enums.AttendanceState
 import attendance.DateTimeTransducer
 import attendance.model.EliminationTargetState
-import attendance.Error
+import attendance.enums.Error
 import attendance.FileManager
 import attendance.Validator
 import attendance.model.Attendances

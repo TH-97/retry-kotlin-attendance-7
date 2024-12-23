@@ -1,4 +1,4 @@
-package attendance
+package attendance.enums
 
 enum class Error(private val message : String) {
     FORM("[ERROR] 잘못된 형식을 입력하였습니다."),
