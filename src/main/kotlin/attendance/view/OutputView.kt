@@ -42,7 +42,6 @@ class OutputView {
     }
     fun outputEliminationTarget(nickName: String, tardiness: Int, absence: Int) {
         val condition = absence + (tardiness/3)
-//        println(nickName + condition)
         if (condition == 2) println("- ${nickName}: 결석 ${absence}회, 지각 ${tardiness}회 (경고)")
         if (condition in 3 .. 5) println("- ${nickName}: 결석 ${absence}회, 지각 ${tardiness}회 (면담)")
     }

@@ -71,7 +71,6 @@ class MainController(
         val dayOfWeek = dateTimeTransducer.findDateInformation(modifyDate)
         val (beforeAndAfter,fileList) =
             attendanceHelper.modifyAttendance(modifyNickName,nowMonth,modifyDate,modifySchoolTime,fileList)
-//        fileList.forEach { println(it.nickname + " " + it.datetime)}
         val beforeSchoolTimeState = attendanceHelper.checkAttendance(dayOfWeek,beforeAndAfter.split("*")[0])
         val afterSchoolTimeState = attendanceHelper.checkAttendance(dayOfWeek,beforeAndAfter.split("*")[1])
         outputView.

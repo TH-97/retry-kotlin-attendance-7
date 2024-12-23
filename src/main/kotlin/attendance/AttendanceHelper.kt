@@ -40,7 +40,6 @@ class AttendanceHelper {
             val after =  modifySchoolTime
             fileList[findIndexOfFileList] =
                 Attendances(modifyNickName,"2024-${nowMonth}-${modifyDay} ${modifySchoolTime}")
-//            fileList.forEach { println(it.nickname + " " + it.datetime)}
             return Pair("$before*$after",fileList)
 
         }else{
@@ -49,7 +48,6 @@ class AttendanceHelper {
             fileList.add(
                 Attendances(modifyNickName,"2024-${nowMonth}-${modifyDay} ${modifySchoolTime}")
             )
-//            fileList.forEach { println(it.nickname + " " + it.datetime)}
             return Pair("$before*$after",fileList)
         }
     }
