@@ -1,5 +1,6 @@
 package attendance
 
+import attendance.enums.Error
 import attendance.model.Attendances
 import java.time.LocalDate
 
@@ -37,7 +38,7 @@ class Validator {
         require(hourAndMinute[0].toInt() in 8 .. 22){ Error.FORM.getMessage() }
         require(hourAndMinute[1].toInt() in 0 .. 59){ Error.FORM.getMessage() }
         if (hourAndMinute[0].toInt() == 23) require(hourAndMinute[1].toInt() == 0)
-            {Error.NOT_CAMPUS_HOURS.getMessage()}
+            { Error.NOT_CAMPUS_HOURS.getMessage()}
     }
     fun validateModifyDate(modifyDate: String, nowDay: String) {
         require(nowDay.toInt() >= modifyDate.toInt()){ Error.ATTENDANCE_FUTURE_DATE.getMessage() }

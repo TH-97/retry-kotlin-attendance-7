@@ -1,4 +1,4 @@
-package attendance
+package attendance.enums
 
 enum class AttendanceState(private val state : String) {
     ATTENDANCE("(출석)"),

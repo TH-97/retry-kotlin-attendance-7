@@ -1,4 +1,6 @@
-package attendance
+package attendance.enums
+
+import kotlin.collections.find
 
 enum class DaysOfWeek(private val daysOfWeek: String) {
     MONDAY("월"),
