@@ -20,7 +20,9 @@ class InputView {
     }
     fun inputModifyDate() :String{
         println("수정하려는 날짜(일)를 입력해 주세요.")
-        return Console.readLine()
+        val input = Console.readLine()
+        if (input.length == 1) return "0$input"
+        return input
     }
     fun inputModifySchoolTime() : String{
         println("언제로 변경하겠습니까?")

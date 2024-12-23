@@ -30,7 +30,7 @@ class AttendanceHelper {
         modifyDay: String,
         modifySchoolTime: String,
         fileList: MutableList<Attendances>
-    ) : Pair<String,String>{
+    ) : Pair<String,MutableList<Attendances>>{
         val findAttendance = fileList.find {
             it.datetime.split(" ")[0].split("-")[2] == modifyDay && it.nickname == modifyNickName
         }
@@ -40,7 +40,8 @@ class AttendanceHelper {
             val after =  modifySchoolTime
             fileList[findIndexOfFileList] =
                 Attendances(modifyNickName,"2024-${nowMonth}-${modifyDay} ${modifySchoolTime}")
-            return Pair(before,after)
+//            fileList.forEach { println(it.nickname + " " + it.datetime)}
+            return Pair("$before*$after",fileList)
 
         }else{
             val before = "--:--"
@@ -48,7 +49,8 @@ class AttendanceHelper {
             fileList.add(
                 Attendances(modifyNickName,"2024-${nowMonth}-${modifyDay} ${modifySchoolTime}")
             )
-            return Pair(before,after)
+//            fileList.forEach { println(it.nickname + " " + it.datetime)}
+            return Pair("$before*$after",fileList)
         }
     }
 }
