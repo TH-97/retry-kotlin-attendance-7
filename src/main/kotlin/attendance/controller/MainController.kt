@@ -38,7 +38,7 @@ class MainController(
             "2" -> {two(fileList,nowDay,nowMonth)}
             "3" -> {three(fileList,nowDay)}
             "4" -> {}
-            "Q" -> {}
+            "Q" -> {return}
             else -> throw IllegalArgumentException(Error.FORM.getMessage())
         }
     }
